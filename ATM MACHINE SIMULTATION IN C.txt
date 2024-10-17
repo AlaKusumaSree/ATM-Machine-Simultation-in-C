@@ -1,0 +1,103 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int pin = 1234;  // Default PIN
+double balance = 1000.0;  // Default balance
+
+void checkBalance() {
+    printf("\nYour balance is: $%.2f\n", balance);
+}
+
+void withdraw() {
+    double amount;
+    printf("\nEnter the amount to withdraw: $");
+    scanf("%lf", &amount);
+
+    if (amount > balance) {
+        printf("\nInsufficient balance!\n");
+    } else {
+        balance -= amount;
+        printf("\nPlease collect your cash.\n");
+        printf("Updated balance: $%.2f\n", balance);
+    }
+}
+
+void deposit() {
+    double amount;
+    printf("\nEnter the amount to deposit: $");
+    scanf("%lf", &amount);
+    balance += amount;
+    printf("\nDeposit successful.\n");
+    printf("Updated balance: $%.2f\n", balance);
+}
+
+void changePIN() {
+    int oldPIN, newPIN;
+    printf("\nEnter your current PIN: ");
+    scanf("%d", &oldPIN);
+
+    if (oldPIN == pin) {
+        printf("Enter new PIN: ");
+        scanf("%d", &newPIN);
+        pin = newPIN;
+        printf("\nPIN changed successfully!\n");
+    } else {
+        printf("\nIncorrect PIN!\n");
+    }
+}
+
+int main() {
+    int option, enteredPIN, attempts = 0;
+
+    printf("Welcome to ATM Simulation\n");
+
+    while (attempts < 3) {
+        printf("\nPlease enter your PIN: ");
+        scanf("%d", &enteredPIN);
+
+        if (enteredPIN == pin) {
+            break;
+        } else {
+            printf("\nIncorrect PIN. Try again.\n");
+            attempts++;
+        }
+    }
+
+    if (attempts == 3) {
+        printf("\nToo many incorrect attempts. Exiting...\n");
+        exit(0);
+    }
+
+    do {
+        printf("\n==== ATM Menu ====\n");
+        printf("1. Check Balance\n");
+        printf("2. Withdraw\n");
+        printf("3. Deposit\n");
+        printf("4. Change PIN\n");
+        printf("5. Exit\n");
+        printf("Choose an option: ");
+        scanf("%d", &option);
+
+        switch (option) {
+            case 1:
+                checkBalance();
+                break;
+            case 2:
+                withdraw();
+                break;
+            case 3:
+                deposit();
+                break;
+            case 4:
+                changePIN();
+                break;
+            case 5:
+                printf("\nThank you for using our ATM service.\n");
+                break;
+            default:
+                printf("\nInvalid option! Please try again.\n");
+        }
+    } while (option != 5);
+
+    return 0;
+}
